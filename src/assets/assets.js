@@ -2,7 +2,7 @@ import dummy_profile from './dummy_profile.png'
 
 export const dummyResumeData = [
     {
-        // ----------------------------------------------------- Resume 1 ------------------------------------------------------
+        
         personal_info: {
             full_name: "Alex Smith",
             email: "alex@example.com",
