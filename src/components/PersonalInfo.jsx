@@ -1,11 +1,22 @@
-import { UserIcon } from 'lucide-react'
+import { BriefcaseBusiness, Globe, Linkedin, Mail, MapPin, Phone, User, UserIcon } from 'lucide-react'
 import React from 'react'
+import { dummyResumeData } from '../assets/assets'
 
 const PersonalInfo = ({data, onChange, removeBg, setRemoveBg}) => {
 
     const handleChange = (field,value) => {
         onChange({...data, [field]: value})
     }
+
+    const fields = [
+        {key: "full_name",label: "Full Name", type: "text", icon: User, required: true},
+        {key: "email",label: "Email Address", type: "email", icon: Mail, required: true},
+        {key: "phone",label: "Phone Number", type: "tel", icon: Phone},
+        {key: "location",label: "Location", type: "text", icon: MapPin},
+        {key: "profession",label: "Profession", type: "text", icon: BriefcaseBusiness},
+        {key: "linkedIn",label: "LinkedIn profile", type: "url", icon: Linkedin},
+        {key: "website",label: "Personal Website", type: "url", icon: Globe},
+    ]
 
   return (
     <div>
@@ -30,11 +41,24 @@ const PersonalInfo = ({data, onChange, removeBg, setRemoveBg}) => {
                         <input type="checkbox" className='sr-only peer' onChange={()=>setRemoveBg(prev => !prev)} checked={removeBg}/>
                         <div className='w-9 h-5 bg-slate-500 rounded-full peer peer-checked:bg-green-600 transition-all duration-300'>
                         </div>
-                        <span className='dot absolute left-1 top-1 w-4 h-4 bg-white rounded-full transition-transform duration-200 ease-in-out peer-checked:translate-x-4'></span>
+                        <span className='dot absolute left-1 top-1 w-3 h-3 bg-white rounded-full transition-transform duration-200 ease-in-out peer-checked:translate-x-4'></span>
                     </label>
                 </div>
             )}
         </div>
+            {fields.map((field) => {
+                const Icon = field.icon
+                return (
+                    <div key={field} className='space-y-1 mt-5'>
+                        <label className='flex items-center gap-2 text-sm font-medium text-gray-500'>
+                            <Icon className='size-4'/>
+                            {field.label}
+                            {field.required && <span className='text-red-500'>*</span>}
+                        </label>
+                        <input type={field.type} value={data[field.key] || ""} onChange={(e) => handleChange(field.key, e.target.value)} className='mt-1 w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring focus:ring-blue-400 forcus:border-blue-500 outline-none text-sm transition-colors' placeholder={`Enter your ${field.label.toLowerCase()}`} required={field.required}/>
+                    </div>
+                )
+            })}
     </div>
   )
 }

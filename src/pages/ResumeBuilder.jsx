@@ -24,14 +24,14 @@ const ResumeBuilder = () => {
 
 
   const loadExistingResume = async () => {
-    const resume = dummyResumeData.find(resume => {
-      resume._id === resumeId
-    })
-    if(resume){
-      setResumeData(resume)
-      document.title = resume.title
-    }
+  const resume = dummyResumeData.find(resume => 
+    resume._id === resumeId
+  )
+  if(resume){
+    setResumeData(resume)
+    document.title = resume.title
   }
+}
 
   const [activeSectionIndex, setActiveSectionIndex] = useState(0)
   const [removeBg, setRemoveBg] = useState(false)
@@ -90,7 +90,11 @@ const ResumeBuilder = () => {
               </div>
 
               {/* right-panel-preview */}
-              <div></div>
+              <div className='lg:col-span-7 max-lg:mt-6'>
+                  <div className='border border-gray-300 rounded-lg h-full flex flex-col justify-center items-center p-6'>
+                    
+                  </div>
+              </div>
           </div>
         </div>  
     </div>
