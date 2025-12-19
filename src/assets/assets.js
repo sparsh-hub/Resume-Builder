@@ -140,8 +140,8 @@ export const dummyResumeData = [
                 _id: "78e3b42c2d5ff49286cc1493"
             }
         ],
-        template: "minimal-image",
-        accent_color: "#6366F1",
+        template: "classic",
+        accent_color: "#000000",
         project: [
             {
                 name: "FitTrack - Fitness Dashboard",

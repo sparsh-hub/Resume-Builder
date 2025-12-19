@@ -3,6 +3,8 @@ import { Link, useParams } from 'react-router-dom'
 import { dummyResumeData } from '../assets/assets'
 import { ArrowLeftIcon, Briefcase, ChevronLeft, ChevronRight, FileText, FileTextIcon, FolderIcon, GraduationCap, Sparkles, User } from 'lucide-react'
 import PersonalInfo from '../components/PersonalInfo'
+import ResumePreview from '../components/ResumePreview'
+import TemplateSelector from '../components/TemplateSelector'
 
 const ResumeBuilder = () => {
 
@@ -68,7 +70,9 @@ const ResumeBuilder = () => {
                       <hr className='absolute top-0 left-0 h-1 bg-gradient-to-r from-green-500 to-green-600 border-none transition-all duration-2000' style={{width:`${activeSectionIndex*100 / (sections.length -1)}%`}}/>
 
                       <div className='flex justify-between items-center mb-6 border-b border-gray-300 py-1'>
-                          <div></div>
+                          <div>    
+                              <TemplateSelector selectedTemplate={resumeData.template} onChange={(template) => setResumeData(prev => ({...prev, template}))} />
+                          </div>
                           <div className='flex items-center'>
                               {activeSectionIndex !== 0 && (
                                 <button onClick={() => setActiveSectionIndex((prevIndex) => Math.max(prevIndex - 1, 0))} className='flex items-center gap-1 p-3 rounded-lg text-sm font-medium text-gray-600 hover:bg-gray-50 transition-all' disabled={activeSectionIndex === 0}>
@@ -91,9 +95,10 @@ const ResumeBuilder = () => {
 
               {/* right-panel-preview */}
               <div className='lg:col-span-7 max-lg:mt-6'>
-                  <div className='border border-gray-300 rounded-lg h-full flex flex-col justify-center items-center p-6'>
+                  <div>
                     
                   </div>
+                  <ResumePreview data={resumeData} template={resumeData.template} accentColor={resumeData.accent_color}/>
               </div>
           </div>
         </div>  
