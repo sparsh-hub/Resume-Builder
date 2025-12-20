@@ -5,6 +5,8 @@ import { ArrowLeftIcon, Briefcase, ChevronLeft, ChevronRight, FileText, FileText
 import PersonalInfo from '../components/PersonalInfo'
 import ResumePreview from '../components/ResumePreview'
 import TemplateSelector from '../components/TemplateSelector'
+import ColorPicker from '../components/ColorPicker'
+import SummaryForm from '../components/SummaryForm'
 
 const ResumeBuilder = () => {
 
@@ -69,9 +71,11 @@ const ResumeBuilder = () => {
                       <hr className='absolute top-0 left-0 right-0 border-2 border-gray-200' />
                       <hr className='absolute top-0 left-0 h-1 bg-gradient-to-r from-green-500 to-green-600 border-none transition-all duration-2000' style={{width:`${activeSectionIndex*100 / (sections.length -1)}%`}}/>
 
-                      <div className='flex justify-between items-center mb-6 border-b border-gray-300 py-1'>
-                          <div>    
+                      <div className='flex items-center justify-between mb-6 border-b border-gray-300 py-1'>
+                          <div className='flex items-center gap-2'>    
                               <TemplateSelector selectedTemplate={resumeData.template} onChange={(template) => setResumeData(prev => ({...prev, template}))} />
+
+                              <ColorPicker selectedColor={resumeData.accent_color} onChange={(color) => setResumeData(prev => ({...prev,accent_color: color}))} />
                           </div>
                           <div className='flex items-center'>
                               {activeSectionIndex !== 0 && (
@@ -88,6 +92,9 @@ const ResumeBuilder = () => {
                       <div className='space-y-6'>
                           {activeSection.id === "personal" && (
                             <PersonalInfo data={resumeData.personal_info} onChange={(data) => setResumeData(prev => ({...prev, personal_info: data}))} removeBg={removeBg} setRemoveBg={setRemoveBg}/>
+                          )}
+                          {activeSection.id === "summary" && (
+                            <SummaryForm data={resumeData.professional_summary} onChange={(data) => setResumeData(prev => ({...prev, professional_summary: data}))} setResumeData={setResumeData} />
                           )}
                       </div>
                   </div>
