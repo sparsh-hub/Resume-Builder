@@ -8,6 +8,7 @@ import Preview from './pages/Preview'
 import Login from './pages/Login'
 import { useDispatch } from 'react-redux'
 import { login, setLoading } from './app/features/authSlice'
+import {Toaster} from 'react-hot-toast'
 
 
 const App = () => {
@@ -39,6 +40,7 @@ const App = () => {
 
   return (
     <>
+      <Toaster />
        <Routes>
          <Route path='/' element={<Home />} />
          <Route path='app' element={<Layout />} >
