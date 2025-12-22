@@ -2,9 +2,18 @@ import { FilePenLineIcon, PencilIcon, PlusIcon, TrashIcon, UploadCloud, UploadCl
 import React, { useEffect, useState } from "react";
 import { useNavigate } from 'react-router-dom'
 import { dummyResumeData } from "../assets/assets";
+import { useSelector } from "react-redux";
+import api from "../configs/api";
+import pdfToText from 'react-pdftotext'
+import toast from "react-hot-toast";
+
 
 const Dashboard = () => {
+
+  const {user, token} = useSelector(state => state.auth)
+
   const color = ["#9333ea", "#d97706", "#dc2626", "#0284c7", "#16a34a"];
+  const [isLoading, setIsLoading] = useState(false);
   const [allResumes, setAllResumes] = useState([]);
   const [showCreateResume, setShowCreateResume] = useState(false);
   const [showUploadResume, setShowUploadResume] = useState(false);  
@@ -15,28 +24,56 @@ const Dashboard = () => {
   const navigate = useNavigate()
 
   const loadAllResumes = async () => {
-    setAllResumes(dummyResumeData);
+    try {
+      const { data } = await api.get('/api/users/resumes', {headers: {Authorization: token}})
+      setAllResumes(data.resumes)
+    } catch (error) {
+      toast.error(error.response?.data?.message || error.message)
+    }
   };
 
   const createresume = async (e) => {
-      e.preventDefault()
-      setShowCreateResume(false)
-      navigate(`/app/builder/res123`)
+      try {
+        e.preventDefault()
+        const { data } = await api.post('/api/resumes/create', {title}, {headers: {Authorization: token}})
+        setAllResumes([...allResumes, data.resume])
+        setTitle('')
+        setShowCreateResume(false)
+        navigate(`/app/builder/${data.resume._id}`)
+      } catch (error) {
+        toast.error(error.response?.data?.message || error.message)
+      }
   }
 
   const uploadResume = async (e) => {
     e.preventDefault()
-    setShowUploadResume(false)
-    navigate(`/app/builder/res123`)
+    const resumeText = await pdfToText(resume)
+    // const { data } = await api.post('/api/ai/upload-resume', {title}, {headers: {Authorization: token}})
   }
+  // REQUIRES GEMINI API WHICH I DO NOT HAVE ACCESS TO YET
 
   const editTitle = async (e) => {
-    e.preventDefault()
+    try {
+      e.preventDefault()
+      const { data } = await api.put(`/api/resumes/update`, {resumeId: editResumeId, resumeData: {title}},{headers: {Authorization: token}})
+      setAllResumes(allResumes.map(resume => resume._id === editResumeId ? { ...resume, title} : resume))
+      setTitle('')
+      setEditResumeId('')
+      toast.success(data.message)
+    } catch (error) {
+      toast.error(error.response?.data?.message || error.message)
+    }
   }
   const deleteresume = async (resumeId) => {
-    const confirm = window.confirm('Are you sure you want to delete this resume?')
-    if(confirm){
-      setAllResumes(prev => prev.filter(resume => resume._id !== resumeId))
+    try {
+      const confirm = window.confirm('Are you sure you want to delete this resume?')
+      if(confirm){
+        const { data } = await api.delete(`/api/resumes/delete/${resumeId}`, {headers: {Authorization: token}})
+        setAllResumes(allResumes.filter(resume => resume._id !== resumeId))
+        toast.success(data.message)
+      }
+    } catch (error) {
+      toast.error(error.response?.data?.message || error.message)
     }
   }
 
