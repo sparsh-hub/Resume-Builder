@@ -9,10 +9,6 @@ const SummaryForm = ({data, onChange, setResumeData}) => {
                 <h3 className='flex items-center gap-2 text-lg font-semibold text-gray-900'>Professional Summary</h3>
                 <p className='text-sm text-gray-500'>Add Summary For Your Resume Here</p>
             </div>
-            <button className='flex items-center gap-3 px-3 text-sm bg-purple-100 py-1 text-purple-700 rounded hover:bg-purple-200 transition-colors disabled:opacity-50'>
-                <Sparkles className='size-4' />
-                AI Enhance
-            </button>
         </div>
 
         <div className='mt-6 '>

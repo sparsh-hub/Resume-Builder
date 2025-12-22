@@ -9,6 +9,7 @@ import Login from './pages/Login'
 import { useDispatch } from 'react-redux'
 import { login, setLoading } from './app/features/authSlice'
 import {Toaster} from 'react-hot-toast'
+import api from './configs/api'
 
 
 const App = () => {
@@ -19,7 +20,7 @@ const App = () => {
     const token = localStorage.getItem('token')
     try {
       if(token){
-        const {data} = await api.get('/api/users/data', {headers: {Authprization: token}})
+        const {data} = await api.get('/api/users/data', {headers: {Authorization: token}})
         if(data.user){
           dispatch(login({token, user: data.user}))
         }
@@ -29,6 +30,7 @@ const App = () => {
         dispatch(setLoading(false))
       }
     } catch (error) {
+      localStorage.removeItem('token')
       dispatch(setLoading(false))
       console.log(error.message)
     }

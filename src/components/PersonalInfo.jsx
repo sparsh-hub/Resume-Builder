@@ -9,6 +9,7 @@ const PersonalInfo = ({data, onChange, removeBg, setRemoveBg}) => {
     }
 
     const fields = [
+        
         {key: "full_name",label: "Full Name", type: "text", icon: User, required: true},
         {key: "email",label: "Email Address", type: "email", icon: Mail, required: true},
         {key: "phone",label: "Phone Number", type: "tel", icon: Phone},
